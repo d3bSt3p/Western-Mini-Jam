@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2975313759
+    locked: 0
+  - name: Level
+    uniqueID: 2086227279
+    locked: 0
+  - name: Player
+    uniqueID: 3929367807
+    locked: 0
+  - name: Obsticles
+    uniqueID: 695067961
+    locked: 0

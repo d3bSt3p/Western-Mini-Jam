@@ -50,6 +50,6 @@ TagManager:
   - name: Player
     uniqueID: 3929367807
     locked: 0
-  - name: Obsticles
+  - name: Obstacles
     uniqueID: 695067961
     locked: 0

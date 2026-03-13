@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 743282977}
   - component: {fileID: 743282976}
   - component: {fileID: 743282975}
+  - component: {fileID: 743282978}
   m_Layer: 6
   m_Name: Character Controller
   m_TagString: Untagged
@@ -434,6 +435,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!210 &743282978
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743282973}
+  m_Enabled: 1
+  m_SortingLayerID: -365599489
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &905893021
 GameObject:
   m_ObjectHideFlags: 0

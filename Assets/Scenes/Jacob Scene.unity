@@ -485,7 +485,7 @@ MonoBehaviour:
   - {fileID: 1548566801331055106, guid: 3869490ea620ef140bad289feb0e614e, type: 3}
   minSpawnTime: 3
   maxSpawnTime: 6
-  objectSpeed: 1.2
+  objectSpeed: 4
   spawnTimeModifier: 1
   laneTopHeight: -1.95
   laneMidHeight: -3.18

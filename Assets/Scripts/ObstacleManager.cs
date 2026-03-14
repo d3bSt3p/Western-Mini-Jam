@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> obstaclePrefabs;
+    [SerializeField] private List<GameObject> obstacleStrafePrefabs;
+    [SerializeField] private List<GameObject> obstaclesJumpPrefabs;
 
     [Header("Values")]
     [SerializeField] private float minSpawnTime;
@@ -12,9 +13,11 @@ public class ObstacleManager : MonoBehaviour
     public float spawnTimeModifier = 1;
 
     [Header("Spawn Lanes")] 
-    [SerializeField] private float laneTopHeight;
-    [SerializeField] private float laneMidHeight;
-    [SerializeField] private float laneBotHeight;
+    [SerializeField] public float laneTopHeight;
+    [SerializeField] public float laneMidHeight;
+    [SerializeField] public float laneBotHeight;
+    
+   
     
     private List<GameObject> obstacles;
     
@@ -49,19 +52,32 @@ public class ObstacleManager : MonoBehaviour
             nextSpawnTime += Random.Range(minSpawnTime, maxSpawnTime) * spawnTimeModifier;
             
             // create new obstacle of random type
-            int obstacleIndex = Random.Range(0, obstaclePrefabs.Count);
-            GameObject prefab = obstaclePrefabs[obstacleIndex];
+            // pick random jump obstacle
+            int obsticleType = Random.Range(0, 2);
+            if (obsticleType == 0)
+            {
+                int jumpObstacleIndex = Random.Range(0, obstaclesJumpPrefabs.Count);
+                GameObject jumpPrefab = obstaclesJumpPrefabs[jumpObstacleIndex];
+                Vector3 spawnPosition = new Vector3(10, laneBotHeight, 0);
+                GameObject newObstacle = Instantiate(jumpPrefab, spawnPosition, Quaternion.identity, transform);
+                obstacles.Add(newObstacle);
+            }
+            if (obsticleType == 1)
+            {
+                 // pick random strafe obstacle
+                 int obstacleIndex = Random.Range(0, obstacleStrafePrefabs.Count);
+                 GameObject prefab = obstacleStrafePrefabs[obstacleIndex];
             
-            // pick random lane
-            Vector3 spawnPosition = new Vector3(10, 0, 0);
-            int lane = Random.Range(1, 3);
-            if (lane == 1) spawnPosition.y = laneTopHeight;
-            if (lane == 2) spawnPosition.y = laneMidHeight;
-            if (lane == 3) spawnPosition.y = laneBotHeight;
+                 // pick random lane
+                 Vector3 spawnPosition = new Vector3(10, 0, 0);
+                 int lane = Random.Range(1, 3);
+                 if (lane == 1) spawnPosition.y = laneTopHeight;
+                 if (lane == 2) spawnPosition.y = laneMidHeight;
+                 if (lane == 3) spawnPosition.y = laneBotHeight;
             
-            GameObject newObstacle = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
-            obstacles.Add(newObstacle);
-
+                 GameObject newObstacle = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+                 obstacles.Add(newObstacle);
+            }
             IncreaseSpeed();
         }
     }

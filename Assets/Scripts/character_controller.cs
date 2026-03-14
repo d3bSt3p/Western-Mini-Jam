@@ -5,24 +5,17 @@ public class CharacterController2D : MonoBehaviour
 {
     [SerializeField] private bool canMove = true;
 
-    [SerializeField] private Rigidbody2D baseRB;
+    [Header("References")]
+    [SerializeField] private Rigidbody2D charRB;
+    [SerializeField] private ObstacleManager obstacleManager;
 
-    [Header("Movement Speeds")]
-    [SerializeField] private float verticalSpeed = 5f;
-    [SerializeField] private float rightSpeed = 6f;
-    [SerializeField] private float leftSpeed = 7f;
+    [Header("Lane Movement")]
+    [SerializeField] private float laneMoveSmooth = 0.1f;
 
-    [Range(0, 1f)]
-    [SerializeField] private float movementSmooth = 0.05f;
-
-    [Header("Movement Boundaries")]
-    [SerializeField] private float minVertical = -5f;
-    [SerializeField] private float maxVertical = 5f;
-    [SerializeField] private float minHorizontal = -10f;
-    [SerializeField] private float maxHorizontal = 10f;
+    private float laneVelocity;
+    private int currentLane = 1;
 
     [Header("Jumping")]
-    [SerializeField] private Rigidbody2D charRB;
     [SerializeField] private float jumpVal = 10f;
     [SerializeField] private int possibleJumps = 1;
     [SerializeField] private int currentJumps = 0;
@@ -37,9 +30,6 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float fallingGravityScale = 2f;
 
     private bool jump;
-
-    private Vector2 inputVelocity;
-    private Vector2 smoothVelocity;
 
     void Update()
     {
@@ -56,19 +46,15 @@ public class CharacterController2D : MonoBehaviour
 
     void HandleInput()
     {
-        inputVelocity = Vector2.zero;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            currentLane = Mathf.Clamp(currentLane + 1, 0, 2);
+        }
 
-        if (Input.GetKey(KeyCode.W))
-            inputVelocity.y = verticalSpeed;
-
-        if (Input.GetKey(KeyCode.S))
-            inputVelocity.y = -verticalSpeed;
-
-        if (Input.GetKey(KeyCode.A))
-            inputVelocity.x = -leftSpeed;
-
-        if (Input.GetKey(KeyCode.D))
-            inputVelocity.x = rightSpeed;
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            currentLane = Mathf.Clamp(currentLane - 1, 0, 2);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && (currentJumps < possibleJumps || onBase))
         {
@@ -80,27 +66,22 @@ public class CharacterController2D : MonoBehaviour
     {
         DetectBase();
 
-        Vector2 targetVelocity = inputVelocity;
+        float targetHeight = GetLaneHeight();
 
-        Vector2 smoothedVelocity = Vector2.SmoothDamp(
-            baseRB.velocity,
-            targetVelocity,
-            ref smoothVelocity,
-            movementSmooth
+        float newY = Mathf.SmoothDamp(
+            transform.position.y,
+            targetHeight,
+            ref laneVelocity,
+            laneMoveSmooth
         );
 
-        baseRB.velocity = smoothedVelocity;
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
-        if (onBase)
-        {
-            charRB.velocity = smoothedVelocity;
-        }
-        else
+        // Gravity adjustments
+        if (!onBase)
         {
             if (charRB.velocity.y < 0)
                 charRB.gravityScale = fallingGravityScale;
-
-            charRB.velocity = new Vector2(smoothedVelocity.x, charRB.velocity.y);
         }
 
         if (jump)
@@ -112,8 +93,21 @@ public class CharacterController2D : MonoBehaviour
             currentJumps++;
             onBase = false;
         }
+    }
 
-        ClampPosition();
+    float GetLaneHeight()
+    {
+        switch (currentLane)
+        {
+            case 2:
+                return obstacleManager.laneTopHeight;
+
+            case 1:
+                return obstacleManager.laneMidHeight;
+
+            default:
+                return obstacleManager.laneBotHeight;
+        }
     }
 
     void DetectBase()
@@ -136,37 +130,11 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
-    void ClampPosition()
-    {
-        Vector3 pos = transform.position;
 
-        pos.x = Mathf.Clamp(pos.x, minHorizontal, maxHorizontal);
-        pos.y = Mathf.Clamp(pos.y, minVertical, maxVertical);
-
-        transform.position = pos;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("obstacle"))
-        {
-            Debug.Log("Hit " + other.gameObject.name);
-        }
-    }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-
-        Vector3 topLeft = new Vector3(minHorizontal, maxVertical, 0);
-        Vector3 topRight = new Vector3(maxHorizontal, maxVertical, 0);
-        Vector3 bottomLeft = new Vector3(minHorizontal, minVertical, 0);
-        Vector3 bottomRight = new Vector3(maxHorizontal, minVertical, 0);
-
-        Gizmos.DrawLine(topLeft, topRight);
-        Gizmos.DrawLine(topRight, bottomRight);
-        Gizmos.DrawLine(bottomRight, bottomLeft);
-        Gizmos.DrawLine(bottomLeft, topLeft);
 
         if (jumpDetector != null)
         {

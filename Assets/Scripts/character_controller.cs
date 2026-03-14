@@ -1,89 +1,176 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class character_controller : MonoBehaviour
+public class CharacterController2D : MonoBehaviour
 {
-    // Variables for movement
-    private Vector3 velocity = Vector3.zero;
-    
-    // Variables for min and max vertical 
-    [SerializeField]private float verticalSpeed = 5f;
-    [SerializeField]private float minVertical = -5f;
-    [SerializeField]private float maxVertical = 5f;
-    
-    // Variables for min and max horizontal
-    [SerializeField]private float rightSpeed = 6;
-    [SerializeField]private float leftSpeed = 7;
-    [SerializeField]private float minHorizontal = -10f;
-    [SerializeField]private float maxHorizontal = 10f;
-    
-    
-    // Update is called once per frame
+    [SerializeField] private bool canMove = true;
+
+    [SerializeField] private Rigidbody2D baseRB;
+
+    [Header("Movement Speeds")]
+    [SerializeField] private float verticalSpeed = 5f;
+    [SerializeField] private float rightSpeed = 6f;
+    [SerializeField] private float leftSpeed = 7f;
+
+    [Range(0, 1f)]
+    [SerializeField] private float movementSmooth = 0.05f;
+
+    [Header("Movement Boundaries")]
+    [SerializeField] private float minVertical = -5f;
+    [SerializeField] private float maxVertical = 5f;
+    [SerializeField] private float minHorizontal = -10f;
+    [SerializeField] private float maxHorizontal = 10f;
+
+    [Header("Jumping")]
+    [SerializeField] private Rigidbody2D charRB;
+    [SerializeField] private float jumpVal = 10f;
+    [SerializeField] private int possibleJumps = 1;
+    [SerializeField] private int currentJumps = 0;
+
+    [SerializeField] private bool onBase = false;
+
+    [SerializeField] private Transform jumpDetector;
+    [SerializeField] private float detectionDistance = 0.5f;
+    [SerializeField] private LayerMask detectLayer;
+
+    [SerializeField] private float jumpingGravityScale = 1f;
+    [SerializeField] private float fallingGravityScale = 2f;
+
+    private bool jump;
+
+    private Vector2 inputVelocity;
+    private Vector2 smoothVelocity;
+
     void Update()
     {
-        HandleMovement();
+        HandleInput();
+    }
+
+    void FixedUpdate()
+    {
+        if (canMove)
+        {
+            HandleMovement();
+        }
+    }
+
+    void HandleInput()
+    {
+        inputVelocity = Vector2.zero;
+
+        if (Input.GetKey(KeyCode.W))
+            inputVelocity.y = verticalSpeed;
+
+        if (Input.GetKey(KeyCode.S))
+            inputVelocity.y = -verticalSpeed;
+
+        if (Input.GetKey(KeyCode.A))
+            inputVelocity.x = -leftSpeed;
+
+        if (Input.GetKey(KeyCode.D))
+            inputVelocity.x = rightSpeed;
+
+        if (Input.GetKeyDown(KeyCode.Space) && (currentJumps < possibleJumps || onBase))
+        {
+            jump = true;
+        }
     }
 
     void HandleMovement()
     {
-        velocity = Vector3.zero;
+        DetectBase();
 
-        // Handle vertical movement (W and S keys)
-        if (Input.GetKey(KeyCode.W))
+        Vector2 targetVelocity = inputVelocity;
+
+        Vector2 smoothedVelocity = Vector2.SmoothDamp(
+            baseRB.velocity,
+            targetVelocity,
+            ref smoothVelocity,
+            movementSmooth
+        );
+
+        baseRB.velocity = smoothedVelocity;
+
+        if (onBase)
         {
-            velocity.y = verticalSpeed;
+            charRB.velocity = smoothedVelocity;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else
         {
-            velocity.y = -verticalSpeed;
+            if (charRB.velocity.y < 0)
+                charRB.gravityScale = fallingGravityScale;
+
+            charRB.velocity = new Vector2(smoothedVelocity.x, charRB.velocity.y);
         }
 
-        // Handle horizontal movement (A and D keys)
-        if (Input.GetKey(KeyCode.A))
+        if (jump)
         {
-            velocity.x = -leftSpeed;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            velocity.x = rightSpeed;
+            charRB.AddForce(Vector2.up * jumpVal, ForceMode2D.Impulse);
+            charRB.gravityScale = jumpingGravityScale;
+
+            jump = false;
+            currentJumps++;
+            onBase = false;
         }
 
-        // Apply movement
-        transform.position += velocity * Time.deltaTime;
+        ClampPosition();
+    }
 
-        // Clamp position to specified ranges
-        Vector3 clampedPosition = transform.position;
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, minHorizontal, maxHorizontal);
-        clampedPosition.y = Mathf.Clamp(clampedPosition.y, minVertical, maxVertical);
-        transform.position = clampedPosition;
+    void DetectBase()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(
+            jumpDetector.position,
+            Vector2.down,
+            detectionDistance,
+            detectLayer
+        );
+
+        if (hit.collider != null)
+        {
+            onBase = true;
+            currentJumps = 0;
+        }
+        else
+        {
+            onBase = false;
+        }
+    }
+
+    void ClampPosition()
+    {
+        Vector3 pos = transform.position;
+
+        pos.x = Mathf.Clamp(pos.x, minHorizontal, maxHorizontal);
+        pos.y = Mathf.Clamp(pos.y, minVertical, maxVertical);
+
+        transform.position = pos;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("obstacle"))
+        if (other.CompareTag("obstacle"))
         {
-            Debug.Log("hit " +  other.gameObject.name + "!");
+            Debug.Log("Hit " + other.gameObject.name);
         }
     }
 
-    // Draw gizmos in the editor to visualize movement boundaries
     void OnDrawGizmos()
     {
-        // Set gizmo color to green
         Gizmos.color = Color.green;
 
-        // Define the corners of the movement boundary rectangle
         Vector3 topLeft = new Vector3(minHorizontal, maxVertical, 0);
         Vector3 topRight = new Vector3(maxHorizontal, maxVertical, 0);
         Vector3 bottomLeft = new Vector3(minHorizontal, minVertical, 0);
         Vector3 bottomRight = new Vector3(maxHorizontal, minVertical, 0);
 
-        // Draw the rectangle boundaries
-        Gizmos.DrawLine(topLeft, topRight);           // Top
-        Gizmos.DrawLine(topRight, bottomRight);       // Right
-        Gizmos.DrawLine(bottomRight, bottomLeft);     // Bottom
-        Gizmos.DrawLine(bottomLeft, topLeft);         // Left
+        Gizmos.DrawLine(topLeft, topRight);
+        Gizmos.DrawLine(topRight, bottomRight);
+        Gizmos.DrawLine(bottomRight, bottomLeft);
+        Gizmos.DrawLine(bottomLeft, topLeft);
+
+        if (jumpDetector != null)
+        {
+            Gizmos.DrawRay(jumpDetector.position, Vector3.down * detectionDistance);
+        }
     }
 }

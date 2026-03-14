@@ -49,9 +49,9 @@ TagManager:
   - name: Level
     uniqueID: 2086227279
     locked: 0
-  - name: Player
+  - name: Game
     uniqueID: 3929367807
     locked: 0
-  - name: Obstacles
-    uniqueID: 695067961
+  - name: UI
+    uniqueID: 1394095581
     locked: 0

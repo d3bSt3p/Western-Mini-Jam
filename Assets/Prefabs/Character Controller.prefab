@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5479952786002602284}
   - component: {fileID: 3638998333679548564}
   - component: {fileID: 6931067522560908691}
+  - component: {fileID: 6885787029858909821}
   m_Layer: 6
   m_Name: Character Controller
   m_TagString: Untagged
@@ -173,6 +174,23 @@ SortingGroup:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &6885787029858909821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2775119549727322565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34515fd957635274797db8a3b4355782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshair: {fileID: 0}
+  lineRenderer: {fileID: 2121028751980373475}
+  lineStartPoint: {fileID: 5540266903487502008}
+  shootCooldown: 0.1
+  effectLength: 0.1
 --- !u!1 &4048578599122695939
 GameObject:
   m_ObjectHideFlags: 0

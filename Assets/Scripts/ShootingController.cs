@@ -21,6 +21,7 @@ public class ShootingController : MonoBehaviour
     {
         mainCamera = Camera.main;
         lineRenderer.enabled = false;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -43,6 +44,15 @@ public class ShootingController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && canShoot)
         {
+            RaycastHit2D hit = Physics2D.Raycast(crosshairPos,  Vector2.zero);
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.CompareTag("shootable"))
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+            
             // i felt like using coroutines to handle the timers idk
             StartCoroutine(ShotCooldown());
             StartCoroutine(ShootEffect());

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,6 +72,14 @@ public class character_controller : MonoBehaviour
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, minHorizontal, maxHorizontal);
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, minVertical, maxVertical);
         transform.position = clampedPosition;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("obstacle"))
+        {
+            Debug.Log("hit " +  other.gameObject.name + "!");
+        }
     }
 
     // Draw gizmos in the editor to visualize movement boundaries

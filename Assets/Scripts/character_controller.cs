@@ -1,17 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class character_controller : MonoBehaviour
 {
-    // Rigidbody reference
-    [SerializeField] Rigidbody2D characterRigidbody;
-    [SerializeField] Transform groundDietector;
-    [SerializeField] private LayerMask detectLayer;
-    
     // Variables for movement
     private Vector3 velocity = Vector3.zero;
-    private Vector3 desiredVelocity = Vector3.zero;
     
     // Variables for min and max vertical 
     [SerializeField]private float verticalSpeed = 5f;
@@ -24,49 +19,50 @@ public class character_controller : MonoBehaviour
     [SerializeField]private float minHorizontal = -10f;
     [SerializeField]private float maxHorizontal = 10f;
     
-    // Variables for movement smoothing
-    [SerializeField]private float accelerationTime = 0.1f;
-    [SerializeField]private float decelerationTime = 0.15f;
     
-    // Variables for jumping
-    [SerializeField]private float jumpForce = 10f;
-    [SerializeField]private float groundCheckDistance = 0.5f;
-    private bool isGrounded = false;
+    // Variables for directional speed
+    // Up and Down (0.5)
+    // Left (0.66)
+    // Right (1.0)
     
+    
+    
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
         HandleMovement();
-        HandleJump();
     }
 
     void HandleMovement()
     {
-        desiredVelocity = Vector3.zero;
+        velocity = Vector3.zero;
 
         // Handle vertical movement (W and S keys)
         if (Input.GetKey(KeyCode.W))
         {
-            desiredVelocity.y = verticalSpeed;
+            velocity.y = verticalSpeed;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            desiredVelocity.y = -verticalSpeed;
+            velocity.y = -verticalSpeed;
         }
 
         // Handle horizontal movement (A and D keys)
         if (Input.GetKey(KeyCode.A))
         {
-            desiredVelocity.x = -leftSpeed;
+            velocity.x = -leftSpeed;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            desiredVelocity.x = rightSpeed;
+            velocity.x = rightSpeed;
         }
-
-        // Smoothly interpolate velocity based on acceleration/deceleration time
-        float smoothTime = Vector3.Distance(velocity, desiredVelocity) > 0.01f ? accelerationTime : decelerationTime;
-        velocity = Vector3.Lerp(velocity, desiredVelocity, Time.deltaTime / smoothTime);
 
         // Apply movement
         transform.position += velocity * Time.deltaTime;
@@ -78,54 +74,30 @@ public class character_controller : MonoBehaviour
         transform.position = clampedPosition;
     }
 
-    void HandleJump()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the character is grounded
-        CheckGrounded();
-
-        // Jump when space bar is pressed and character is grounded
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (other.gameObject.CompareTag("obstacle"))
         {
-            characterRigidbody.velocity = new Vector2(characterRigidbody.velocity.x, 0);
-            characterRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            Debug.Log("hit " +  other.gameObject.name + "!");
         }
     }
 
-    void CheckGrounded()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(groundDietector.position, -Vector2.up, groundCheckDistance, detectLayer);
-        if(hit.collider != null)
-        {
-            isGrounded = true;
-            //currentJumps = 0;
-        }
-        else
-        {
-            isGrounded = false;
-        }
-    
-        
-
-    }
-
-    // Draw gizmos in the editor to visualize movement boundaries and ground check
+    // Draw gizmos in the editor to visualize movement boundaries
     void OnDrawGizmos()
     {
-        // Draw movement boundary rectangle
+        // Set gizmo color to green
         Gizmos.color = Color.green;
 
+        // Define the corners of the movement boundary rectangle
         Vector3 topLeft = new Vector3(minHorizontal, maxVertical, 0);
         Vector3 topRight = new Vector3(maxHorizontal, maxVertical, 0);
         Vector3 bottomLeft = new Vector3(minHorizontal, minVertical, 0);
         Vector3 bottomRight = new Vector3(maxHorizontal, minVertical, 0);
 
-        Gizmos.DrawLine(topLeft, topRight);           
-        Gizmos.DrawLine(topRight, bottomRight);       
-        Gizmos.DrawLine(bottomRight, bottomLeft);     
-        Gizmos.DrawLine(bottomLeft, topLeft);
-
-        // Draw ground check raycast visualization
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Gizmos.DrawLine(groundDietector.position, groundDietector.position + Vector3.down * groundCheckDistance);
+        // Draw the rectangle boundaries
+        Gizmos.DrawLine(topLeft, topRight);           // Top
+        Gizmos.DrawLine(topRight, bottomRight);       // Right
+        Gizmos.DrawLine(bottomRight, bottomLeft);     // Bottom
+        Gizmos.DrawLine(bottomLeft, topLeft);         // Left
     }
 }

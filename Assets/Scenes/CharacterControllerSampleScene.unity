@@ -361,7 +361,7 @@ MonoBehaviour:
   maxHorizontal: 8
   accelerationTime: 0.1
   decelerationTime: 0.15
-  jumpForce: 10
+  jumpForce: 6
   groundCheckDistance: 0.14
 --- !u!61 &743282976
 BoxCollider2D:

@@ -20,20 +20,6 @@ public class character_controller : MonoBehaviour
     [SerializeField]private float maxHorizontal = 10f;
     
     
-    // Variables for directional speed
-    // Up and Down (0.5)
-    // Left (0.66)
-    // Right (1.0)
-    
-    
-    
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {

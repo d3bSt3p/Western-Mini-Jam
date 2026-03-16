@@ -9,6 +9,8 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private Rigidbody2D charRB;
     [SerializeField] private ObstacleManager obstacleManager;
     [SerializeField] private Animator charAnimator;
+    [SerializeField] private GameController gameController;
+    
 
     [Header("Lane Movement")]
     [SerializeField] private float laneMoveSmooth = 0.1f;
@@ -30,18 +32,22 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float jumpingGravityScale = 1f;
     [SerializeField] private float fallingGravityScale = 2f;
     
-    
-
     private bool jump;
 
     void Update()
     {
-        HandleInput();
+        charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.5f));
+        if (gameController.gameStarted)
+        {
+            HandleInput();
+            
+        }
+        
     }
 
     void FixedUpdate()
     {
-        if (canMove)
+        if (gameController.gameStarted)
         {
             HandleMovement();
         }

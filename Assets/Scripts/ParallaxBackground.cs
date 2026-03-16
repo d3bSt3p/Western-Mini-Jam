@@ -16,26 +16,30 @@ public class ParallaxBackground : MonoBehaviour
 
     private void Update()
     {
-        bottomSpeed = gameController.gameSpeed;
-        
-        foreach (Transform th in topHalves)
+        if (gameController.gameStarted)
         {
-            th.transform.position += Vector3.left * Time.deltaTime * topSpeed;
+            bottomSpeed = gameController.gameSpeed;
+        
+            foreach (Transform th in topHalves)
+            {
+                th.transform.position += Vector3.left * Time.deltaTime * topSpeed;
 
-            if (th.transform.position.x < -18.1f)
-            {
-                th.transform.position = new Vector3(18.1f, 0f, 0f);
+                if (th.transform.position.x < -18.1f)
+                {
+                    th.transform.position = new Vector3(18.1f, 0f, 0f);
+                }
             }
-        }
         
-        foreach (Transform bh in bottomHalves)
-        {
-            bh.transform.position += Vector3.left * Time.deltaTime * bottomSpeed;
-            
-            if (bh.transform.position.x < -18.1f)
+            foreach (Transform bh in bottomHalves)
             {
-                bh.transform.position = new Vector3(18.1f, 0f, 0f);
+                bh.transform.position += Vector3.left * Time.deltaTime * bottomSpeed;
+            
+                if (bh.transform.position.x < -18.1f)
+                {
+                    bh.transform.position = new Vector3(18.1f, 0f, 0f);
+                }
             }
         }
+
     }
 }

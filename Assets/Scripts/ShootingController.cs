@@ -8,6 +8,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private GameObject crosshair;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform lineStartPoint;
+    [SerializeField] private GameController gameController;
     
     [Header("Balancing")]
     [SerializeField] private float shootCooldown = 0.1f;
@@ -22,12 +23,17 @@ public class ShootingController : MonoBehaviour
         mainCamera = Camera.main;
         lineRenderer.enabled = false;
         Cursor.visible = false;
+        
     }
 
     private void Update()
     {
-        UpdateCrosshairPosition();
-        HandleShooting();
+        if (gameController.gameStarted)
+        {
+            UpdateCrosshairPosition();
+            HandleShooting();
+        }
+
     }
 
     private void UpdateCrosshairPosition()

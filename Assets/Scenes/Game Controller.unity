@@ -383,8 +383,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleManager: {fileID: 604964269}
   characterController: {fileID: 484149807}
+  startScreen: {fileID: 0}
+  gameOverScreen: {fileID: 0}
+  instructionsText: {fileID: 0}
+  finalScoreText: {fileID: 0}
   gameSpeed: 1
   score: 0
+  gameStarted: 0
 --- !u!1 &867265094
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,7 +468,7 @@ Transform:
   m_GameObject: {fileID: 867265094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.63, y: -1.24, z: 0}
+  m_LocalPosition: {x: 9.64, y: 0.31, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1096,6 +1101,10 @@ PrefabInstance:
       value: 0.07958512
       objectReference: {fileID: 0}
     - target: {fileID: 3638998333679548564, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
+      propertyPath: gameController
+      value: 
+      objectReference: {fileID: 604964270}
+    - target: {fileID: 3638998333679548564, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
       propertyPath: maxJumpHoldTime
       value: 0.5
       objectReference: {fileID: 0}
@@ -1107,6 +1116,10 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 867265094}
+    - target: {fileID: 6885787029858909821, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
+      propertyPath: gameController
+      value: 
+      objectReference: {fileID: 604964270}
     - target: {fileID: 6998294888898635756, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.092

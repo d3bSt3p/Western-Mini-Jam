@@ -29,8 +29,12 @@ public class ShootingController : MonoBehaviour
 
     private void Update()
     {
-        UpdateCrosshairPosition();
-        HandleShooting();
+        if (gameController.gameStarted)
+        {
+            UpdateCrosshairPosition();
+            HandleShooting();
+        }
+
     }
 
     private void UpdateCrosshairPosition()

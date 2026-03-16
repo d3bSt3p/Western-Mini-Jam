@@ -10,7 +10,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private ObstacleManager obstacleManager;
     [SerializeField] private Animator charAnimator;
     [SerializeField] private GameController gameController;
-    [SerializeField] private Animator animator;
+    
 
     [Header("Lane Movement")]
     [SerializeField] private float laneMoveSmooth = 0.1f;
@@ -36,7 +36,7 @@ public class CharacterController2D : MonoBehaviour
 
     void Update()
     {
-        animator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.5f));
+        charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.5f));
         if (gameController.gameStarted)
         {
             HandleInput();

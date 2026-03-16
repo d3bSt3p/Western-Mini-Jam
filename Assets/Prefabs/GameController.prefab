@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6621010562204785924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8817157934287431973}
+  - component: {fileID: 5072465683671075359}
+  - component: {fileID: 1612740148701194358}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8817157934287431973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621010562204785924}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5072465683671075359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621010562204785924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf339a18b9608141bd6e57bff4db9f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleStrafePrefabs:
+  - {fileID: 6993817476800313456, guid: 1bd685702e16747438bfe1023806c3c0, type: 3}
+  obstaclesJumpPrefabs:
+  - {fileID: 7871417850340022277, guid: 3869490ea620ef140bad289feb0e614e, type: 3}
+  gameController: {fileID: 1612740148701194358}
+  minSpawnTime: 3
+  maxSpawnTime: 6
+  spawnTimeModifier: 1
+  laneTopHeight: -1.95
+  laneMidHeight: -3.18
+  laneBotHeight: -4.43
+  nextSpawnTime: 0
+  spawnTimer: 0
+  drawGizmos: 0
+--- !u!114 &1612740148701194358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621010562204785924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8dbbc485ea275459727022ab9e070e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleManager: {fileID: 5072465683671075359}
+  characterController: {fileID: 0}
+  startScreen: {fileID: 0}
+  gameOverScreen: {fileID: 0}
+  gameScreen: {fileID: 0}
+  scoreText: {fileID: 0}
+  instructionsText: {fileID: 0}
+  finalScoreText: {fileID: 0}
+  startingGameSpeed: 1
+  gameSpeed: 0
+  score: 0
+  gameStarted: 0

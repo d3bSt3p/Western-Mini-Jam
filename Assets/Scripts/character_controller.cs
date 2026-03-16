@@ -8,6 +8,7 @@ public class CharacterController2D : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D charRB;
     [SerializeField] private ObstacleManager obstacleManager;
+    [SerializeField] private Animator charAnimator;
     [SerializeField] private GameController gameController;
     [SerializeField] private Animator animator;
 
@@ -68,6 +69,11 @@ public class CharacterController2D : MonoBehaviour
         {
             jump = true;
         }
+
+        if (currentJumps == 0)
+            charAnimator.SetBool("isJumping", false);
+        else
+            charAnimator.SetBool("isJumping", true);
     }
 
     void HandleMovement()

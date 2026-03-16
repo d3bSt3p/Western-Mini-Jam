@@ -33,13 +33,9 @@ public class ObstacleManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameController.gameStarted)
-        {
-            HandleObstacleSpawn();
-            MoveObstacles();
-            HandleDestroyObstacles();
-        }
-
+        HandleObstacleSpawn();
+        MoveObstacles();
+        HandleDestroyObstacles();
     }
 
     // This gets called everytime an object is spawned to slowly ramp-up difficulty

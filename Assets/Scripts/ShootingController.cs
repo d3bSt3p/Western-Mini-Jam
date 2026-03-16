@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour
 {
-    [Header("References")]
+    [Header("Effects")]
     [SerializeField] private GameObject crosshair;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform lineStartPoint;
-    [SerializeField] private Transform armPivot;
+    [SerializeField] private GameController gameController;
     
     [Header("Balancing")]
     [SerializeField] private float shootCooldown = 0.1f;
@@ -23,13 +23,17 @@ public class ShootingController : MonoBehaviour
         mainCamera = Camera.main;
         lineRenderer.enabled = false;
         Cursor.visible = false;
+        
     }
 
     private void Update()
     {
-        UpdateCrosshairPosition();
-        FaceArmToCrosshair();
-        HandleShooting();
+        if (gameController.gameStarted)
+        {
+            UpdateCrosshairPosition();
+            HandleShooting();
+        }
+
     }
 
     private void UpdateCrosshairPosition()
@@ -40,13 +44,6 @@ public class ShootingController : MonoBehaviour
         
         crosshair.transform.localPosition = crosshairPos;
         lineRenderer.SetPosition(0, lineStartPoint.position);
-    }
-
-    private void FaceArmToCrosshair()
-    {
-        Vector3 toCrosshair = crosshairPos - armPivot.position;
-        float angle = Mathf.Atan2(toCrosshair.y, toCrosshair.x) * Mathf.Rad2Deg;
-        armPivot.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     private void HandleShooting()

@@ -300,6 +300,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484149807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3638998333679548564, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
+  m_PrefabInstance: {fileID: 1765514151}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff019f038db1204d95c0a0024d9a15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &604964267
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,8 +321,9 @@ GameObject:
   m_Component:
   - component: {fileID: 604964268}
   - component: {fileID: 604964269}
+  - component: {fileID: 604964270}
   m_Layer: 0
-  m_Name: ObstacleController
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -348,15 +360,31 @@ MonoBehaviour:
   - {fileID: 6993817476800313456, guid: 1bd685702e16747438bfe1023806c3c0, type: 3}
   obstaclesJumpPrefabs:
   - {fileID: 7871417850340022277, guid: 3869490ea620ef140bad289feb0e614e, type: 3}
+  gameController: {fileID: 604964270}
   minSpawnTime: 3
   maxSpawnTime: 6
-  objectSpeed: 4
   spawnTimeModifier: 1
   laneTopHeight: -1.95
   laneMidHeight: -3.18
   laneBotHeight: -4.43
   nextSpawnTime: 0
   spawnTimer: 0
+--- !u!114 &604964270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604964267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8dbbc485ea275459727022ab9e070e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleManager: {fileID: 604964269}
+  characterController: {fileID: 484149807}
+  gameSpeed: 1
+  score: 0
 --- !u!1 &867265094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,6 +1071,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2246935394225113342, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
+      propertyPath: gameController
+      value: 
+      objectReference: {fileID: 604964270}
     - target: {fileID: 2775119549727322565, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
       propertyPath: m_Name
       value: Character Controller
@@ -1062,6 +1094,10 @@ PrefabInstance:
     - target: {fileID: 2996997935246583399, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
       propertyPath: m_Offset.y
       value: 0.07958512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638998333679548564, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
+      propertyPath: maxJumpHoldTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3638998333679548564, guid: 21b9eef88a3bf8f43bde02f12f965851, type: 3}
       propertyPath: obstacleManager

@@ -28,6 +28,8 @@ public class CharacterController2D : MonoBehaviour
 
     [SerializeField] private float jumpingGravityScale = 1f;
     [SerializeField] private float fallingGravityScale = 2f;
+    
+    
 
     private bool jump;
 

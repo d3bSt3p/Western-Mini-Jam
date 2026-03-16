@@ -5,11 +5,11 @@ public class ObstacleManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> obstacleStrafePrefabs;
     [SerializeField] private List<GameObject> obstaclesJumpPrefabs;
+    [SerializeField] private GameController gameController;
 
     [Header("Values")]
     [SerializeField] private float minSpawnTime;
     [SerializeField] private float maxSpawnTime;
-    public float objectSpeed = 1;
     public float spawnTimeModifier = 1;
 
     [Header("Spawn Lanes")] 
@@ -38,11 +38,7 @@ public class ObstacleManager : MonoBehaviour
     }
 
     // This gets called everytime an object is spawned to slowly ramp-up difficulty
-    private void IncreaseSpeed()
-    {
-        objectSpeed *= 1.05f;
-        spawnTimeModifier *= 0.98f; 
-    }
+
     
     private void HandleObstacleSpawn()
     {
@@ -78,7 +74,7 @@ public class ObstacleManager : MonoBehaviour
                  GameObject newObstacle = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
                  obstacles.Add(newObstacle);
             }
-            IncreaseSpeed();
+            gameController.IncreaseSpeed();
         }
     }
 
@@ -86,7 +82,7 @@ public class ObstacleManager : MonoBehaviour
     {
         foreach (var obstacle in obstacles)
         {
-            Vector3 velocity = new Vector3(objectSpeed, 0, 0);
+            Vector3 velocity = new Vector3(gameController.gameSpeed, 0, 0);
             obstacle.transform.position -= velocity * Time.deltaTime;
         }
     }

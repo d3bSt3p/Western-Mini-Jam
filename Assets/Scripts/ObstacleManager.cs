@@ -17,12 +17,13 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] public float laneMidHeight;
     [SerializeField] public float laneBotHeight;
     
-   
+   [Header("Debug")]
+   public float nextSpawnTime; 
+   public float spawnTimer;
+   [SerializeField] private bool drawGizmos;
     
     private List<GameObject> obstacles;
     
-    public float nextSpawnTime;
-    public float spawnTimer;
 
     private void Start()
     {
@@ -104,6 +105,8 @@ public class ObstacleManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!drawGizmos) return;
+        
         Gizmos.color = Color.yellow;
         
         Vector3 laneTopL = new Vector3(-10, laneTopHeight, 0);

@@ -8,6 +8,7 @@ public class CharacterController2D : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D charRB;
     [SerializeField] private ObstacleManager obstacleManager;
+    [SerializeField] private Animator charAnimator;
 
     [Header("Lane Movement")]
     [SerializeField] private float laneMoveSmooth = 0.1f;
@@ -62,6 +63,11 @@ public class CharacterController2D : MonoBehaviour
         {
             jump = true;
         }
+
+        if (currentJumps == 0)
+            charAnimator.SetBool("isJumping", false);
+        else
+            charAnimator.SetBool("isJumping", true);
     }
 
     void HandleMovement()

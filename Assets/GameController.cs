@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] ObstacleManager obstacleManager;
     [SerializeField] CharacterController2D characterController;
+    [SerializeField] ShootingController shootingController;
 
     [Header("UI")]
     [SerializeField] GameObject startScreen;
@@ -18,6 +19,10 @@ public class GameController : MonoBehaviour
     [SerializeField] TextMeshProUGUI instructionsText;
     [SerializeField] TextMeshProUGUI finalScoreText;
     [SerializeField] public float startingGameSpeed = 1f;
+    
+    [Header("Audio")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip yeehaw;
     
     public float gameSpeed = 0;
     
@@ -54,6 +59,7 @@ public class GameController : MonoBehaviour
                 gameSpeed = startingGameSpeed;
                 startScreen.SetActive(false);
                 gameScreen.SetActive(true);
+                audioSource.PlayOneShot(yeehaw);
             }
 
             return;
@@ -89,6 +95,7 @@ public class GameController : MonoBehaviour
 
         // disable player movement
         characterController.enabled = false;
+        shootingController.enabled = false;
 
         // show game over screen
         gameOverScreen.SetActive(true);

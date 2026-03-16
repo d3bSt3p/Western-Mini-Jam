@@ -10,6 +10,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private Transform lineStartPoint;
     [SerializeField] private Transform armPivot;
     [SerializeField] private GameController gameController;
+    [SerializeField] private AudioClip gunshot;
     
     [Header("Balancing")]
     [SerializeField] private float shootCooldown = 0.1f;
@@ -18,13 +19,14 @@ public class ShootingController : MonoBehaviour
     
     private Camera mainCamera;
     private Vector3 crosshairPos;
+    private AudioSource audioSource;
 
     private void Start()
     {
         mainCamera = Camera.main;
         lineRenderer.enabled = false;
         Cursor.visible = false;
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -35,7 +37,6 @@ public class ShootingController : MonoBehaviour
             FaceArmToCrosshair();
             HandleShooting();
         }
-
     }
 
     private void UpdateCrosshairPosition()
@@ -71,6 +72,10 @@ public class ShootingController : MonoBehaviour
             // i felt like using coroutines to handle the timers idk
             StartCoroutine(ShotCooldown());
             StartCoroutine(ShootEffect());
+            
+            audioSource.pitch = Random.Range(0.7f, 1.3f);
+            audioSource.PlayOneShot(gunshot);
+            audioSource.pitch = 1f;
         }
     }
 

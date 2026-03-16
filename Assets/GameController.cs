@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +13,10 @@ public class GameController : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject startScreen;
     [SerializeField] GameObject gameOverScreen;
-    [SerializeField] Text instructionsText;
-    [SerializeField] Text finalScoreText;
+    [SerializeField] GameObject gameScreen;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI instructionsText;
+    [SerializeField] TextMeshProUGUI finalScoreText;
     [SerializeField] public float startingGameSpeed = 1f;
     
     public float gameSpeed = 0;
@@ -34,6 +37,7 @@ public class GameController : MonoBehaviour
 
         // hide game over screen initially
         gameOverScreen.SetActive(false);
+        gameScreen.SetActive(false);
         gameSpeed = 0;
 
     }
@@ -48,6 +52,8 @@ public class GameController : MonoBehaviour
             {
                 gameStarted = true;
                 gameSpeed = startingGameSpeed;
+                startScreen.SetActive(false);
+                gameScreen.SetActive(true);
             }
 
             return;
@@ -55,22 +61,12 @@ public class GameController : MonoBehaviour
 
         CalculateScore();
     }
-
-    void StartGame()
-    {
-        gameStarted = true;
-
-        // hide start screen
-        startScreen.SetActive(false);
-
-        // unfreeze game
-        Time.timeScale = 1;
-    }
-
+    
     // give the player a score based on how long they have survived and the speed of the game
     private void CalculateScore()
     {
         score = Time.timeSinceLevelLoad * gameSpeed * 10;
+        scoreText.text = "Score: " + Mathf.FloorToInt(score);
     }
 
     public void IncreaseSpeed()
@@ -96,9 +92,10 @@ public class GameController : MonoBehaviour
 
         // show game over screen
         gameOverScreen.SetActive(true);
+        gameScreen.SetActive(false);
 
         // display game over text and final score
-        finalScoreText.text = "Game Over!\nScore: " + Mathf.FloorToInt(score);
+        finalScoreText.text = "Game Over! Score: " + Mathf.FloorToInt(score);
         
     }
 }

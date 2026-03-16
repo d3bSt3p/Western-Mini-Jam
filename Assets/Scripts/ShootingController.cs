@@ -32,6 +32,7 @@ public class ShootingController : MonoBehaviour
         if (gameController.gameStarted)
         {
             UpdateCrosshairPosition();
+            FaceArmToCrosshair();
             HandleShooting();
         }
 

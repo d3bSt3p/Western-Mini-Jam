@@ -10,7 +10,10 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private ObstacleManager obstacleManager;
     [SerializeField] private Animator charAnimator;
     [SerializeField] private GameController gameController;
+    [SerializeField] private AudioSource horseAS;
+    [SerializeField] private AudioClip jumpSfx;
     
+    private AudioSource audioSource;
 
     [Header("Lane Movement")]
     [SerializeField] private float laneMoveSmooth = 0.1f;
@@ -34,15 +37,18 @@ public class CharacterController2D : MonoBehaviour
     
     private bool jump;
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.5f));
         if (gameController.gameStarted)
         {
             HandleInput();
-            
         }
-        
     }
 
     void FixedUpdate()
@@ -68,12 +74,13 @@ public class CharacterController2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && (currentJumps < possibleJumps || onBase))
         {
             jump = true;
+            audioSource.PlayOneShot(jumpSfx);
         }
 
-        if (currentJumps == 0)
-            charAnimator.SetBool("isJumping", false);
-        else
-            charAnimator.SetBool("isJumping", true);
+        // anim and sfx
+        bool jumping = currentJumps == 1;
+        charAnimator.SetBool("isJumping", jumping);
+        horseAS.mute = jumping;
     }
 
     void HandleMovement()

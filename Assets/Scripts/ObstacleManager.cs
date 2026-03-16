@@ -24,6 +24,8 @@ public class ObstacleManager : MonoBehaviour
     
     private List<GameObject> obstacles;
     
+    private int obsticleType = 1;
+    
 
     private void Start()
     {
@@ -54,7 +56,16 @@ public class ObstacleManager : MonoBehaviour
             
             // create new obstacle of random type
             // pick random jump obstacle
-            int obsticleType = Random.Range(0, 2);
+
+            if (gameController.score >= 1000)
+            {
+                obsticleType = Random.Range(0, 2);
+            }
+            else
+            {
+                obsticleType = 1;
+            }
+            
             if (obsticleType == 0)
             {
                 int jumpObstacleIndex = Random.Range(0, obstaclesJumpPrefabs.Count);

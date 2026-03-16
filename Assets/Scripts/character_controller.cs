@@ -34,6 +34,15 @@ public class CharacterController2D : MonoBehaviour
 
     [SerializeField] private float jumpingGravityScale = 1f;
     [SerializeField] private float fallingGravityScale = 2f;
+
+    // NEW: Hang time settings
+    [Header("Hang Time")]
+    [SerializeField] private float hangGravityScale = 0.3f;   
+    [SerializeField] private float hangVelocityThreshold = 2f; 
+    [SerializeField] private float maxHangTime = 0.6f;         
+
+    private float hangTimer = 0f; 
+    private bool isHanging = false; 
     
     private bool jump;
 
@@ -98,11 +107,42 @@ public class CharacterController2D : MonoBehaviour
 
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
-        // Gravity adjustments
-        if (!onBase)
+        // Hang time logic — holds Space near apex while still in the air
+        bool spaceHeld = Input.GetKey(KeyCode.Space);
+        bool nearApex = Mathf.Abs(charRB.velocity.y) < hangVelocityThreshold;
+
+        if (!onBase && spaceHeld && nearApex && currentJumps > 0 && hangTimer < maxHangTime)
         {
-            if (charRB.velocity.y < 0)
-                charRB.gravityScale = fallingGravityScale;
+            isHanging = true;
+            hangTimer += Time.fixedDeltaTime;
+            charRB.gravityScale = hangGravityScale;
+            if (onBase)
+            {
+                jump= false;
+                
+           
+            }
+        }
+        else
+        {
+            
+            // Normal gravity logic 
+            if (!onBase)
+            {
+                isHanging = false;
+                if (charRB.velocity.y < 0)
+                    charRB.gravityScale = fallingGravityScale;
+                else
+                    charRB.gravityScale = jumpingGravityScale;
+            }
+        }
+
+        // Reset hang timer when back on the ground
+        if (onBase)
+        {
+            hangTimer = 0f;
+            isHanging = false;
+           
         }
 
         if (jump)
@@ -150,8 +190,6 @@ public class CharacterController2D : MonoBehaviour
             onBase = false;
         }
     }
-
-
 
     void OnDrawGizmos()
     {

@@ -104,5 +104,6 @@ public class GameController : MonoBehaviour
         // display game over text and final score
         finalScoreText.text = "Game Over! Score: " + Mathf.FloorToInt(score);
         
+        
     }
 }

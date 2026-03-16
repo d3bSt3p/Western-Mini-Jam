@@ -53,7 +53,7 @@ public class CharacterController2D : MonoBehaviour
 
     void Update()
     {
-        charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.5f));
+        charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.15f));
         if (gameController.gameStarted)
         {
             HandleInput();

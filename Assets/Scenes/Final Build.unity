@@ -153,6 +153,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &59573730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7876318986272469450, guid: d7fb37996d6f4b04e80adf8889d80084, type: 3}
+  m_PrefabInstance: {fileID: 1396257358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &84337144
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,10 +747,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleManager: {fileID: 604964269}
-  characterController: {fileID: 0}
-  startScreen: {fileID: 0}
-  gameOverScreen: {fileID: 0}
-  gameScreen: {fileID: 0}
+  characterController: {fileID: 1347595470}
+  startScreen: {fileID: 2090922445}
+  gameOverScreen: {fileID: 59573730}
+  gameScreen: {fileID: 1029687203}
   scoreText: {fileID: 0}
   instructionsText: {fileID: 0}
   finalScoreText: {fileID: 0}
@@ -1586,6 +1591,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1 &1029687203 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8262097803113716963, guid: d7fb37996d6f4b04e80adf8889d80084, type: 3}
+  m_PrefabInstance: {fileID: 1396257358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1240843938
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,7 +1837,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 688275192}
   lineStartPoint: {fileID: 1641600796}
   armPivot: {fileID: 1517631057}
-  gameController: {fileID: 0}
+  gameController: {fileID: 604964270}
   shootCooldown: 0.1
   effectLength: 0.1
 --- !u!210 &1347595469
@@ -1858,8 +1868,7 @@ MonoBehaviour:
   charRB: {fileID: 1793269305}
   obstacleManager: {fileID: 604964269}
   charAnimator: {fileID: 545718345}
-  gameController: {fileID: 0}
-  animator: {fileID: 0}
+  gameController: {fileID: 604964270}
   laneMoveSmooth: 0.1
   jumpVal: 4
   possibleJumps: 1
@@ -3230,6 +3239,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2090922445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6108514386673201389, guid: d7fb37996d6f4b04e80adf8889d80084, type: 3}
+  m_PrefabInstance: {fileID: 1396257358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

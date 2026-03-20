@@ -82,7 +82,7 @@ public class ObstacleManager : MonoBehaviour
             
                  // pick random lane
                  Vector3 spawnPosition = new Vector3(10, 0, 0);
-                 int lane = Random.Range(1, 3);
+                 int lane = Random.Range(1, 4);
                  if (lane == 1) spawnPosition.y = laneTopHeight;
                  if (lane == 2) spawnPosition.y = laneMidHeight;
                  if (lane == 3) spawnPosition.y = laneBotHeight;

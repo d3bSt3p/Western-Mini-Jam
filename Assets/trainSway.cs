@@ -16,7 +16,7 @@ public class SwayX : MonoBehaviour
 
     void Update()
     {
-        charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.5f));
+        charAnimator.SetFloat("Speed", Mathf.Abs(gameController.gameSpeed * 0.15f));
         if (gameController.gameStarted)
         {
             float xOffset = Mathf.Sin(Time.time * swaySpeed) * swayAmount;

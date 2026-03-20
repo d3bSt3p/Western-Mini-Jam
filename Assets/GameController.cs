@@ -24,6 +24,11 @@ public class GameController : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip yeehaw;
     
+    [SerializeField] AudioSource playerAS;
+    [SerializeField] AudioSource horseAS;
+    [SerializeField] AudioClip deathSfx;
+    [SerializeField] AudioClip neighSfx;
+    
     public float gameSpeed = 0;
     
     public float score;
@@ -50,6 +55,19 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // restart after game over
+        if (Time.timeScale == 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Time.timeScale = 1;
+                UnityEngine.SceneManagement.SceneManager.LoadScene(
+                    UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+                );
+            }
+            return;
+        }
+
         // wait for player input to start game
         if (!gameStarted)
         {
@@ -84,6 +102,11 @@ public class GameController : MonoBehaviour
     // function called to end the game and show the final score
     public void EndGame()
     {
+        playerAS.PlayOneShot(deathSfx);
+            
+        horseAS.loop = false;
+        horseAS.volume = 1f;
+        horseAS.PlayOneShot(neighSfx);
         // calculate score based on time survived
         score = Time.timeSinceLevelLoad;
 
@@ -102,7 +125,7 @@ public class GameController : MonoBehaviour
         gameScreen.SetActive(false);
 
         // display game over text and final score
-        finalScoreText.text = "Game Over! Score: " + Mathf.FloorToInt(score);
+        finalScoreText.text = "Game Over! Score: " + score + "\nPress SPACE to Restart";
         
         
     }

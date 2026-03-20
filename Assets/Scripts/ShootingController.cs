@@ -56,28 +56,34 @@ public class ShootingController : MonoBehaviour
         armPivot.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
-    private void HandleShooting()
+private void HandleShooting()
+{
+    if (Input.GetMouseButtonDown(0) && canShoot)
     {
-        if (Input.GetMouseButtonDown(0) && canShoot)
+        RaycastHit2D hit = Physics2D.Raycast(crosshairPos, Vector2.zero);
+
+        if (hit.collider != null)
         {
-            RaycastHit2D hit = Physics2D.Raycast(crosshairPos,  Vector2.zero);
-            if (hit.collider != null)
+            if (hit.collider.gameObject.CompareTag("shootable"))
             {
-                if (hit.collider.gameObject.CompareTag("shootable"))
+                Shootable target = hit.collider.GetComponent<Shootable>();
+
+                if (target != null)
                 {
-                    Destroy(hit.collider.gameObject);
+                    target.Die();
                 }
             }
-            
-            // i felt like using coroutines to handle the timers idk
-            StartCoroutine(ShotCooldown());
-            StartCoroutine(ShootEffect());
-            
-            audioSource.pitch = Random.Range(0.7f, 1.3f);
-            audioSource.PlayOneShot(gunshot);
-            audioSource.pitch = 1f;
         }
+
+        // i felt like using coroutines to handle the timers idk
+        StartCoroutine(ShotCooldown());
+        StartCoroutine(ShootEffect());
+
+        audioSource.pitch = Random.Range(0.7f, 1.3f);
+        audioSource.PlayOneShot(gunshot);
+        audioSource.pitch = 1f;
     }
+}
 
     private IEnumerator ShotCooldown()
     {
